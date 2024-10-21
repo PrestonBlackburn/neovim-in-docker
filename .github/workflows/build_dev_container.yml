@@ -1,0 +1,26 @@
+name: build dev container
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: login ghcr.io
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DEV_CONTAINER_TOKEN }}
+
+      - name: Build and push dev container
+        run: |
+          docker build -t ghcr.io/${username}/neodev_env:latest .
+          docker push ghcr.io/username/neodev_env:latest
