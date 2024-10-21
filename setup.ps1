@@ -1,2 +1,4 @@
-docker build . -t cdev_container:latest
-docker run -it -v ${PWD}/example:/example --network host -w /example cdev_container:latest /bin/bash
+docker build . -t neodev_container:latest
+$WorkDir = (Get-Item $PWD).Name
+docker run -it -v ${PWD}:/$WorkDir --network host -w /$WorkDir neodev_container:latest /bin/bash
+
