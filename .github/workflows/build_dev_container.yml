@@ -22,5 +22,11 @@ jobs:
 
       - name: Build and push dev container
         run: |
-          docker build -t ghcr.io/${username}/neodev_env:latest .
-          docker push ghcr.io/username/neodev_env:latest
+          # Assign github.actor to a shell variable
+          username=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
+
+          # Build the container
+          docker build -t ghcr.io/$username/neodev_env:latest .
+
+          # Push the container
+          docker push ghcr.io/$username/neodev_env:latest
