@@ -27,8 +27,11 @@ RUN apt-get update \
    # other
    sudo \
    curl \
-   wget && \
-   rm -rf /var/lib/apt/lists/*
+   wget
+
+# node needed for pyright with Mason =/
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+RUN apt-get install -y nodejs
 
 # optional - get a font + neovim plugins
 RUN wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/3270.zip \
@@ -44,4 +47,5 @@ RUN git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:
 COPY init.lua "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim/init.lua
 
 RUN nvim --headless +PackerInstall +qall
+RUN nvim --headless -c 'MasonInstall pyright' -c 'q'
 RUN nvim --headless -c 'TSInstall python' -c 'q'
