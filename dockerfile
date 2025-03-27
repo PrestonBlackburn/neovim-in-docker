@@ -27,6 +27,7 @@ RUN apt-get update \
    # other
    sudo \
    curl \
+   tmux \
    wget && \
    rm -rf /var/lib/apt/lists/*
 
@@ -39,9 +40,11 @@ RUN wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/3270.z
    && fc-cache -fv \
    && rm -f 3270.zip
 
+
 RUN git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 
 COPY init.lua "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim/init.lua
+COPY tmux.conf /root/.tmux.conf
 
 RUN nvim --headless +PackerInstall +qall
 RUN nvim --headless -c 'TSInstall python' -c 'q'
